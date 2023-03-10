@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">My Home Cloud</string>
+    <string name="grant_permission">Request storage permission</string>
 </resources>
