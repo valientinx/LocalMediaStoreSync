@@ -4,8 +4,6 @@ My Home Cloud
              - ?
 
 
-
-
     Read media from device by using:
         - MediaStore
         - The File API. (classic way)
@@ -15,3 +13,7 @@ My Home Cloud
     Connection mechanism
         - server / client using Ktor
         - P2P ? (device to device)
+
+TODO:
+1. Get phone images.
+2. Build Ktor connection to desktop app.
