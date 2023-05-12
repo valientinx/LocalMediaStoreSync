@@ -17,3 +17,4 @@ My Home Cloud
 TODO:
 1. Get phone images.
 2. Build Ktor connection to desktop app.
+3.
