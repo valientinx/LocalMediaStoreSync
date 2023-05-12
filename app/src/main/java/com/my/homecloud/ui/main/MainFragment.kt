@@ -25,6 +25,8 @@ private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
  */
 private const val DELETE_PERMISSION_REQUEST = 0x1033
 
+private const val TAG = "MainFragment"
+
 class MainFragment : Fragment() {
 
     companion object {
@@ -52,7 +54,8 @@ class MainFragment : Fragment() {
 
         if (haveStoragePermission()) {
             binding.grantPermissionButton.visibility = View.GONE
-            viewModel.loadImages()
+            context?.let { viewModel.loadImages(it.contentResolver) } ?:
+                Log.e(TAG, "NULL context")
         }
 
         return binding.root
@@ -94,7 +97,10 @@ class MainFragment : Fragment() {
                 requireActivity().applicationContext, "permission granted.", Toast.LENGTH_LONG
             ).show()
 
-            viewModel.loadImages()
+            binding.grantPermissionButton.visibility = View.GONE
+
+            context?.let { viewModel.loadImages(it.contentResolver) } ?:
+                Log.e(TAG, "NULL context after permission result")
 
         } else if (writeExternalGranted != null && writeExternalGranted) {
             //

@@ -5,6 +5,7 @@ import android.content.IntentSender
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.my.homecloud.ui.main.MainFragment
+import com.my.homecloud.ui.main.MainViewModel
 
 /** The request code for requesting [Manifest.permission.READ_EXTERNAL_STORAGE] permission. */
 private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
@@ -15,6 +16,8 @@ private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
 private const val DELETE_PERMISSION_REQUEST = 0x1033
 
 class MainActivity : AppCompatActivity() {
+
+//    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
