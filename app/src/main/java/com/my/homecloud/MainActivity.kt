@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,8 +23,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -36,7 +43,6 @@ private const val DELETE_PERMISSION_REQUEST = 0x1033
 
 class MainActivity : ComponentActivity() {
 
-    //    private val viewModel: MainViewModel by viewModels()
     companion object {
         val TAG = "MainActivity"
     }
@@ -71,8 +77,6 @@ class MainActivity : ComponentActivity() {
                     Greetings()
                 }
             }
-
-
         }
     }
 
@@ -83,10 +87,26 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Greeting(name: String) {
-        val expanded = remember { mutableStateOf(false) }
-        val extraPadding = if (expanded.value) 48.dp else 0.dp
+        var expanded by rememberSaveable { mutableStateOf(false) }
+        val extraPadding by animateDpAsState(
+            if (expanded) 48.dp else 0.dp,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "expandRowAnimation"
+        )
+        val extraColor by animateColorAsState(
+            if (expanded) MaterialTheme.colorScheme.secondary
+            else MaterialTheme.colorScheme.primary,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioLowBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "expandRowAnimation"
+        )
 
-        Surface(color = MaterialTheme.colorScheme.primary,
+        Surface(color = extraColor,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             content = {
                 Row(modifier = Modifier.padding(24.dp)) {
@@ -94,16 +114,18 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            .padding(bottom = extraPadding)
+                            .padding(
+                                bottom = extraPadding.coerceAtLeast(0.dp)
+                            )
                     ) {
                         Text(text = "Hello $name!")
-                        Text(text = "Hello 2 $name!")
+                        Text(text = "Hello 2 $name!", style = MaterialTheme.typography.labelSmall)
                     }
                     ElevatedButton(onClick = {
-                        expanded.value = !expanded.value
+                        expanded = !expanded
                         Log.d(TAG, "Expanded $expanded")
                     }) {
-                        Text(if (expanded.value) "Show less" else "Show more")
+                        Text(if (expanded) "Show less" else "Show more")
                     }
                 }
             })
