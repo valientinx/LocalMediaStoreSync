@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
@@ -69,14 +71,7 @@ class MainActivity : ComponentActivity() {
             modifier = modifier,
             color = MaterialTheme.colorScheme.secondary,
         ) {
-
-            Column(
-                modifier = modifier.padding(vertical = 24.dp)
-            ) {
-                for (name in names) {
-                    Greetings()
-                }
-            }
+            Greetings()
         }
     }
 
@@ -109,25 +104,16 @@ class MainActivity : ComponentActivity() {
         Surface(color = extraColor,
             modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
             content = {
-                Row(modifier = Modifier.padding(24.dp)) {
-                    Column(
+                    Column(//Modifier.padding(24.dp)
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f)
                             .padding(
-                                bottom = extraPadding.coerceAtLeast(0.dp)
+                                24.dp
                             )
                     ) {
                         Text(text = "Hello $name!")
                         Text(text = "Hello 2 $name!", style = MaterialTheme.typography.labelSmall)
                     }
-                    ElevatedButton(onClick = {
-                        expanded = !expanded
-                        Log.d(TAG, "Expanded $expanded")
-                    }) {
-                        Text(if (expanded) "Show less" else "Show more")
-                    }
-                }
             })
     }
 
@@ -136,9 +122,16 @@ class MainActivity : ComponentActivity() {
         modifier: Modifier = Modifier,
         names: List<String> = List(1000) { "$it" }
     ) {
-        LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
-            items(items = names) { name ->
-                Greeting(name = name)
+//        LazyVerticalGrid(
+//            columns = GridCells.Fixed(4)
+//        ) {
+
+        LazyVerticalGrid(
+            modifier = modifier.padding(vertical = 4.dp),
+            columns = GridCells.Fixed(2)
+        ) {
+            items(names.size) { item ->
+                Greeting(names.get(item))
             }
         }
     }
