@@ -40,6 +40,7 @@ private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
 
 /**
  * Code used with [IntentSender] to request user permission to delete an image with scoped storage.
+ *
  */
 private const val DELETE_PERMISSION_REQUEST = 0x1033
 
