@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.composecodelab.ui.theme.LocalMediaStoreSyncTheme
+import com.my.homecloud.ui.watercounter.WellnessScreen
 
 /** The request code for requesting [Manifest.permission.READ_EXTERNAL_STORAGE] permission. */
 private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
@@ -43,11 +44,12 @@ private const val READ_EXTERNAL_STORAGE_REQUEST = 0x1045
  *
  */
 private const val DELETE_PERMISSION_REQUEST = 0x1033
+private const val TAG = "MainActivity"
 
 class MainActivity : ComponentActivity() {
 
     companion object {
-        val TAG = "MainActivity"
+        //
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +74,8 @@ class MainActivity : ComponentActivity() {
             modifier = modifier,
             color = MaterialTheme.colorScheme.secondary,
         ) {
-            Greetings()
+//            Greetings()
+            WellnessScreen()
         }
     }
 
@@ -154,4 +157,12 @@ class MainActivity : ComponentActivity() {
             MyApp()
         }
     }
+
+//    @Preview
+//    @Composable
+//    fun MyAppPreview() {
+//        LocalMediaStoreSyncTheme {
+//            MyApp()
+//        }
+//    }
 }

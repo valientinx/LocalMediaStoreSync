@@ -4,7 +4,7 @@ Task#1 update readme
 
 My Home Cloud
 Purpose, - Backup / Sync files (media or non media from device to storage server)
-- share files
+- share files between device and home server
 - ?
 
 
@@ -15,10 +15,21 @@ Purpose, - Backup / Sync files (media or non media from device to storage server
         - ?
 
     Connection mechanism
-        - server / client using Ktor
-        - P2P ? (device to device)
+        - server / client using Ktor (Selected)
+        - or P2P ? (device to device)
 
 TODO:
-1. Get phone images.
-2. Build Ktor connection to desktop app.
-3. 
+1. Get phone images. (remake)
+2. Build Ktor connection to desktop app. 
+    - https://github.com/valientinx/LocalMediaStoreSyncServerTestClient
+    - https://github.com/valientinx/LocalMediaStoreSyncServer
+3. Build basic Compose UI
+4. -
+
+
+Training materials:
+https://developer.android.com/courses/pathways/jetpack-compose-for-android-developers-1
+https://developer.android.com/codelabs/jetpack-compose-layouts#4
+
+Kotlin:
+https://kotlinlang.org/docs/getting-started.html
