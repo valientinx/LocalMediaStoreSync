@@ -1,4 +1,4 @@
-package com.my.homecloud.ui.main
+package com.my.homecloud.ui.data
 
 import android.annotation.SuppressLint
 import android.content.ContentProvider

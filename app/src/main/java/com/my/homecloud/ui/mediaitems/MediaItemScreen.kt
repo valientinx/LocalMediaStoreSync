@@ -1,4 +1,4 @@
-package com.my.homecloud.ui.watercounter
+package com.my.homecloud.ui.mediaitems
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -14,24 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
-
-
-@Composable
-fun WaterCounter(modifier: Modifier = Modifier) {
-
-    Column(modifier = modifier.padding(16.dp)) {
-        var count by rememberSaveable {mutableStateOf(0)}
-        if (count > 3) {
-            Text(
-                text = "You've had ${count} glasses.",
-                modifier = modifier.padding(16.dp)
-            )
-        }
-        Button(onClick = { count++ }, Modifier.padding(top = 8.dp), enabled = count < 10) {
-            Text("Add one")
-        }
-    }
-}
 
 @Composable
 fun StatelessCounter(title: String, count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
@@ -54,13 +36,12 @@ fun StatefullCounter(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun WellnessScreen(modifier: Modifier = Modifier) {
+fun MediaItemScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(16.dp)) {
-//        WaterCounter(modifier)
         StatefullCounter(modifier)
-        val list = remember { getWellnessTasks().toMutableStateList() }
-        WellnessTasksList(list = list, onCloseTask = { task -> list.remove(task)})
+        val list = remember { getMediaItems().toMutableStateList() }
+        MediaItemList(list = list, onCloseTask = { task -> list.remove(task)})
     }
 }
 
-fun getWellnessTasks() = List(30) { i -> WellnessTask(i, "Task # $i") }
+fun getMediaItems() = List(50) { i -> MediaItemData(i, "Task # $i") }

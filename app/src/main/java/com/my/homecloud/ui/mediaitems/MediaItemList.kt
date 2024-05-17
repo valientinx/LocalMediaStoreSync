@@ -1,21 +1,17 @@
-package com.my.homecloud.ui.watercounter
+package com.my.homecloud.ui.mediaitems
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items // so how to use different items functions here?
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
-import kotlinx.coroutines.withContext
-
-
 
 
 @Composable
-fun WellnessTasksList(
+fun MediaItemList(
     modifier: Modifier = Modifier,
-    onCloseTask: (WellnessTask) -> Unit,
-    list: List<WellnessTask> = remember { getWellnessTasks() }
+    onCloseTask: (MediaItemData) -> Unit,
+    list: List<MediaItemData> = remember { getMediaItems() }
 ) {
     LazyColumn(
         modifier = modifier
@@ -24,7 +20,7 @@ fun WellnessTasksList(
             items = list,
             key = { task -> task.id }
         ) { task ->
-            WellnessTaskItem(taskName = task.label, onClose = { onCloseTask(task)})
+            MediaItemView(taskName = task.label, onClose = { onCloseTask(task)})
         }
     }
 

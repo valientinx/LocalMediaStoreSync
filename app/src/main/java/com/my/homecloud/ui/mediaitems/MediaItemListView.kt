@@ -1,4 +1,4 @@
-package com.my.homecloud.ui.watercounter
+package com.my.homecloud.ui.mediaitems
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Icon
@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -21,10 +20,14 @@ import androidx.compose.runtime.setValue
 
 
 @Composable
-fun WellnessTaskItem(taskName: String, onClose: () -> Unit, modifier: Modifier = Modifier) {
+fun MediaItemView(
+    taskName: String,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     var checkedState by rememberSaveable { mutableStateOf(false) }
 
-    WellnessTaskItem(
+    MediaItemView(
         taskName = taskName,
         checked = checkedState,
         onCheckedChange = { newValue -> checkedState = newValue },
@@ -34,7 +37,7 @@ fun WellnessTaskItem(taskName: String, onClose: () -> Unit, modifier: Modifier =
 }
 
 @Composable
-fun WellnessTaskItem(
+fun MediaItemView(
     taskName: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
