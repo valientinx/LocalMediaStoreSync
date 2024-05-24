@@ -5,13 +5,15 @@ import androidx.compose.foundation.lazy.items // so how to use different items f
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Composable
 fun MediaItemList(
     modifier: Modifier = Modifier,
     onCloseTask: (MediaItemData) -> Unit,
-    list: List<MediaItemData> = remember { getMediaItems() }
+    onCheckMedia: (MediaItemData, Boolean) -> Unit,
+    list: List<MediaItemData>
 ) {
     LazyColumn(
         modifier = modifier
@@ -20,7 +22,10 @@ fun MediaItemList(
             items = list,
             key = { task -> task.id }
         ) { task ->
-            MediaItemView(taskName = task.label, onClose = { onCloseTask(task)})
+            MediaItemView(taskName = task.label,
+                onClose = { onCloseTask(task) },
+                checked = task.checked.value,
+                onCheckedChange = { onCheckMedia(task, it) },)
         }
     }
 

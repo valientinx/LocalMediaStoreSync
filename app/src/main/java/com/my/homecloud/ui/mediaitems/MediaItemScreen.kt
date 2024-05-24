@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun StatelessCounter(title: String, count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
@@ -36,12 +37,13 @@ fun StatefullCounter(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun MediaItemScreen(modifier: Modifier = Modifier) {
+fun MediaItemScreen(modifier: Modifier = Modifier,
+                    mediaItemViewModel: MediaItemViewModel = viewModel()) {
     Column(modifier = modifier.padding(16.dp)) {
         StatefullCounter(modifier)
-        val list = remember { getMediaItems().toMutableStateList() }
-        MediaItemList(list = list, onCloseTask = { task -> list.remove(task)})
+        val list = remember { mediaItemViewModel.mediaItems }
+        MediaItemList(list = list,
+            onCloseTask = { mediaItem -> mediaItemViewModel.remove(mediaItem)},
+            onCheckMedia = { mediaItem, checked -> mediaItemViewModel.changeTaskChecked(mediaItem, checked) })
     }
 }
-
-fun getMediaItems() = List(50) { i -> MediaItemData(i, "Task # $i") }
