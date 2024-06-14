@@ -20,12 +20,12 @@ fun MediaItemList(
     ) {
         items(
             items = list,
-            key = { task -> task.id }
-        ) { task ->
-            MediaItemView(taskName = task.label,
-                onClose = { onCloseTask(task) },
-                checked = task.checked.value,
-                onCheckedChange = { onCheckMedia(task, it) },)
+            key = { item -> item.id }
+        ) { item ->
+            MediaItemView(taskName = item.label,
+                onClose = { onCloseTask(item) },
+                checked = item.checked.value,
+                onCheckedChange = { onCheckMedia(item, it) },)
         }
     }
 

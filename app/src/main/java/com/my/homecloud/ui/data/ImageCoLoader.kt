@@ -50,6 +50,7 @@ class ImageCoLoader {
      */
     fun loadImages(contentResolver: ContentResolver) {
         coroutineScope.launch {
+            Log.d("ImageCoLoader", "Loading images")
             val imageList = queryImages(contentResolver)
 //            _images.postValue(imageList)
             imageListener.onDataLoaded(imageList)

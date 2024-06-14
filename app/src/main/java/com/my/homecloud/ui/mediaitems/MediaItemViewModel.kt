@@ -1,10 +1,15 @@
 package com.my.homecloud.ui.mediaitems
 
-import androidx.compose.runtime.toMutableStateList
+import android.content.ContentResolver
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.my.homecloud.ui.data.ImageCoLoader
+import com.my.homecloud.ui.data.ImageLoadedListener
+import com.my.homecloud.ui.data.MediaStoreImage
 
 class MediaItemViewModel : ViewModel() {
-    private val _mediaItems = getMediaItems().toMutableStateList()
+    private val _mediaItems = mutableListOf<MediaItemData>()
+
     val mediaItems: List<MediaItemData>
         get() = _mediaItems
 
@@ -18,6 +23,15 @@ class MediaItemViewModel : ViewModel() {
         }
     }
 
-}
+    fun startLoadingImages(contentResolver: ContentResolver) {
+        val loader: ImageCoLoader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
+            override fun onDataLoaded(imageList: List<MediaStoreImage>) {
+                _mediaItems.addAll(imageList.map { MediaItemData(it.id.toInt(),  it.displayName) })
+                // update ui
 
-private fun getMediaItems() = List(30) { i -> MediaItemData(i, "Task # $i") }
+            }
+        })
+        loader.loadImages(contentResolver)
+    }
+
+}

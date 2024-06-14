@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
             modifier = modifier,
             color = MaterialTheme.colorScheme.secondary,
         ) {
-            MediaItemScreen()
+            MediaItemScreen(cResolver = contentResolver)
         }
     }
 
