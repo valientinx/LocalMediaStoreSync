@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,7 +24,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun StatelessCounter(title: String, count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(16.dp).background(Color.Blue)) {
+    Column(modifier = modifier
+        .padding(16.dp)
+        .background(Color.Blue)) {
         if (count > 0) {
             Text("You've had $count glasses of $title")
         }
@@ -46,11 +49,14 @@ fun StatefullCounter(modifier: Modifier = Modifier) {
 fun MediaItemScreen(modifier: Modifier = Modifier,
                     mediaItemViewModel: MediaItemViewModel = viewModel(),
                     cResolver: ContentResolver) {
-    Column(modifier = modifier.padding(16.dp).background(Color.Green)) {
+    Column(modifier = modifier
+        .padding(16.dp)
+        .background(Color.Green)) {
         StatefullCounter(modifier)
-        val list = remember { mediaItemViewModel.mediaItems.toMutableStateList() }
-        Log.v("MediaItemScreen", "items ${list.size}")
-        MediaItemList(list = list,
+//        val list = remember { mediaItemViewModel.mediaItems.toMutableStateList() }
+        val state = mediaItemViewModel.viewState.collectAsState()
+        Log.v("MediaItemScreen", "items ${state.value}")
+        MediaItemList(list = state.value,
             onCloseTask = { mediaItem -> mediaItemViewModel.remove(mediaItem)},
             onCheckMedia = { mediaItem, checked -> mediaItemViewModel.changeTaskChecked(mediaItem, checked) })
         // load only once at first refresh
