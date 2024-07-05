@@ -19,12 +19,15 @@ Purpose, - Backup / Sync files (media or non media from device to storage server
         - or P2P ? (device to device)
 
 TODO:
-1. Get phone images. (remake)
+1. Get phone images.
 2. Build Ktor connection to desktop app. 
     - https://github.com/valientinx/LocalMediaStoreSyncServerTestClient
     - https://github.com/valientinx/LocalMediaStoreSyncServer
 3. Build basic Compose UI
-4. -
+   Load images
+4. Add data layer (Repository architecture)
+
+
 
 
 Training materials:

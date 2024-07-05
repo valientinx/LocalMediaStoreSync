@@ -22,6 +22,8 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 
+
+const val TAG: String = "MediaItemScreen"
 @Composable
 fun StatelessCounter(title: String, count: Int, onIncrement: () -> Unit, modifier: Modifier = Modifier) {
     Column(modifier = modifier
@@ -55,7 +57,9 @@ fun MediaItemScreen(modifier: Modifier = Modifier,
         StatefullCounter(modifier)
 //        val list = remember { mediaItemViewModel.mediaItems.toMutableStateList() }
         val state = mediaItemViewModel.viewState.collectAsState()
-        Log.v("MediaItemScreen", "items ${state.value}")
+        val state2 = mediaItemViewModel.viewState.collectAsState()
+        Log.d(TAG, "items ${state.value}")
+        Log.v(TAG, "items2 ${state2.value}")
         MediaItemList(list = state.value,
             onCloseTask = { mediaItem -> mediaItemViewModel.remove(mediaItem)},
             onCheckMedia = { mediaItem, checked -> mediaItemViewModel.changeTaskChecked(mediaItem, checked) })
