@@ -18,24 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 
-
-//@Composable
-//fun MediaItemView(
-//    taskName: String,
-//    onClose: () -> Unit,
-//    modifier: Modifier = Modifier
-//) {
-//    var checkedState by rememberSaveable { mutableStateOf(false) }
-//
-//    MediaItemView(
-//        taskName = taskName,
-//        checked = checkedState,
-//        onCheckedChange = { newValue -> checkedState = newValue },
-//        onClose = onClose, // we will implement this later!
-//        modifier = modifier,
-//    )
-//}
-
 @Composable
 fun MediaItemView(
     taskName: String,

@@ -20,14 +20,15 @@ Purpose, - Backup / Sync files (media or non media from device to storage server
 
 TODO:
 1. Get phone images.
+2. Add permission system
+3. Add pagination for the list
+3. Add a jump to top FAB
 2. Build Ktor connection to desktop app. 
     - https://github.com/valientinx/LocalMediaStoreSyncServerTestClient
     - https://github.com/valientinx/LocalMediaStoreSyncServer
 3. Build basic Compose UI
    Load images
 4. Add data layer (Repository architecture)
-
-
 
 
 Training materials:

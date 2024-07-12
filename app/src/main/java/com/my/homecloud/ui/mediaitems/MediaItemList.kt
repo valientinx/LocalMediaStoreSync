@@ -3,10 +3,7 @@ package com.my.homecloud.ui.mediaitems
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items // so how to use different items functions here?
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-
 
 @Composable
 fun MediaItemList(
@@ -28,5 +25,4 @@ fun MediaItemList(
                 onCheckedChange = { onCheckMedia(item, it) },)
         }
     }
-
 }

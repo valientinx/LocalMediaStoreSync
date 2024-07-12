@@ -90,3 +90,6 @@ lint/tmp/
 /.idea/kotlinc.xml
 /.idea/migrations.xml
 /.idea/misc.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/other.xml
+/.idea/inspectionProfiles/Project_Default.xml

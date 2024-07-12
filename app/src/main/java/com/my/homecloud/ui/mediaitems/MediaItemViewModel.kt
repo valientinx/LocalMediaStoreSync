@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class MediaItemViewModel : ViewModel() {
     private val _mediaItems = mutableListOf<MediaItemData>()
@@ -21,21 +22,21 @@ class MediaItemViewModel : ViewModel() {
         _mediaItems.remove(item)
         _viewState.update { _mediaItems }
     }
+
     fun changeTaskChecked(item: MediaItemData, checked: Boolean) {
         _mediaItems.find { it.id == item.id }?.let { task ->
             task.checked.value = checked
         }
     }
 
-    fun startLoadingImages(contentResolver: ContentResolver) {
-        val loader: ImageCoLoader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
+    fun startLoadingImages(contentResolver: ContentResolver) = viewModelScope.launch {
+        val loader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
             override fun onDataLoaded(imageList: List<MediaStoreImage>) {
-                _mediaItems.addAll(imageList.map { MediaItemData(it.id.toInt(),  it.displayName) })
+                _mediaItems.addAll(imageList.map { MediaItemData(it.id.toInt(), it.displayName) })
                 // update ui
                 _viewState.update { _mediaItems }
             }
         })
         loader.loadImages(contentResolver)
     }
-
 }
