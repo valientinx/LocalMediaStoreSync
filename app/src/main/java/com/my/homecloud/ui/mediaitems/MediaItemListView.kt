@@ -1,6 +1,8 @@
 package com.my.homecloud.ui.mediaitems
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -17,13 +19,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.layout.ContentScale
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun MediaItemView(
     taskName: String,
-    checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
-    onClose: () -> Unit,
+    imageUri: String,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -35,13 +37,12 @@ fun MediaItemView(
                 .padding(start = 16.dp),
             text = taskName
         )
-        Checkbox(
-            checked = checked,
-            onCheckedChange = onCheckedChange
+        Image(
+            painter = rememberAsyncImagePainter(model = imageUri),
+            contentDescription = "Selected image from SD card",
+            modifier = Modifier.fillMaxWidth(),
+            contentScale = ContentScale.Crop
         )
-        IconButton(onClick = onClose) {
-            Icon(Icons.Filled.Close, contentDescription = "Close")
-        }
     }
 }
 
