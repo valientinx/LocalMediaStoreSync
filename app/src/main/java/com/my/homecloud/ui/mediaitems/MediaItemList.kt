@@ -8,8 +8,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun MediaItemList(
     modifier: Modifier = Modifier,
-    onCloseTask: (MediaItemData) -> Unit,
-    onCheckMedia: (MediaItemData, Boolean) -> Unit,
     list: List<MediaItemData>
 ) {
     LazyColumn(
@@ -19,10 +17,7 @@ fun MediaItemList(
             items = list,
             key = { item -> item.id }
         ) { item ->
-            MediaItemView(taskName = item.label,
-                onClose = { onCloseTask(item) },
-                checked = item.checked.value,
-                onCheckedChange = { onCheckMedia(item, it) },)
+            MediaItemView(taskName = item.label, imageUri = item.uri)
         }
     }
 }

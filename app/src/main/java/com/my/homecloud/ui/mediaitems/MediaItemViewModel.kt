@@ -23,16 +23,16 @@ class MediaItemViewModel : ViewModel() {
         _viewState.update { _mediaItems }
     }
 
-    fun changeTaskChecked(item: MediaItemData, checked: Boolean) {
-        _mediaItems.find { it.id == item.id }?.let { task ->
-            task.checked.value = checked
-        }
-    }
-
     fun startLoadingImages(contentResolver: ContentResolver) = viewModelScope.launch {
         val loader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
             override fun onDataLoaded(imageList: List<MediaStoreImage>) {
-                _mediaItems.addAll(imageList.map { MediaItemData(it.id.toInt(), it.displayName) })
+                _mediaItems.addAll(imageList.map {
+                    MediaItemData(
+                        it.id.toInt(),
+                        it.displayName,
+                        it.contentUri
+                    )
+                })
                 // update ui
                 _viewState.update { _mediaItems }
             }
