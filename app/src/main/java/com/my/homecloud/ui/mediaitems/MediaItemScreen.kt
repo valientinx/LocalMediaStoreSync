@@ -25,7 +25,7 @@ fun MediaItemScreen(
     Column(
         modifier = modifier
             .padding(16.dp)
-            .background(Color.Green)
+            .background(Color.Gray)
     ) {
         val state = mediaItemViewModel.viewState.collectAsState()
 

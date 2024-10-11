@@ -1,6 +1,7 @@
 package com.my.homecloud.ui.mediaitems
 
 import android.content.ContentResolver
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.my.homecloud.ui.data.ImageCoLoader
@@ -27,6 +28,7 @@ class MediaItemViewModel : ViewModel() {
         val loader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
             override fun onDataLoaded(imageList: List<MediaStoreImage>) {
                 _mediaItems.addAll(imageList.map {
+                    Log.d(TAG, "onDataLoaded: ${it.contentUri}")
                     MediaItemData(
                         it.id.toInt(),
                         it.displayName,
