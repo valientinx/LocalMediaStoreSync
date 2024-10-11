@@ -19,8 +19,8 @@ Purpose, - Backup / Sync files (media or non media from device to storage server
         - or P2P ? (device to device)
 
 TODO:
-1. Get phone images.
-2. Add permission system
+~~1. Get phone images.~~
+~~2. Add permission system~~
 3. Add pagination for the list
 3. Add a jump to top FAB
 2. Build Ktor connection to desktop app. 
