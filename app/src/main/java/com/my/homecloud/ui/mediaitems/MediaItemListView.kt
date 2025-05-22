@@ -2,6 +2,7 @@ package com.my.homecloud.ui.mediaitems
 
 import android.net.Uri
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -24,8 +25,9 @@ fun MediaItemView(
     imageUri: Uri,
     modifier: Modifier = Modifier
 ) {
-    Row(
-        modifier = modifier, verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = rememberAsyncImagePainter(
@@ -33,17 +35,17 @@ fun MediaItemView(
                     .data(imageUri)
                     .scale(Scale.FILL)
                     .build(),
-                contentScale = ContentScale.FillBounds
+                contentScale = ContentScale.Crop
             ),
             contentDescription = "Selected image from SD card",
             modifier = Modifier
-                .height(100.dp)
-                .width(100.dp)
-                .padding(start = 16.dp)
+                .height(180.dp)
+                .width(180.dp)
+                .padding(8.dp)
         )
         Text(
             modifier = Modifier
-                .padding(start = 16.dp),
+                .padding(top = 8.dp),
             text = taskName
         )
     }
