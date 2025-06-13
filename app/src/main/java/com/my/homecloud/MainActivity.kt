@@ -2,7 +2,9 @@ package com.my.homecloud
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +20,10 @@ import com.my.homecloud.ui.mediaitems.MediaItemScreen
 
 class MainActivity : ComponentActivity() {
 
+    companion object {
+        private const val TAG = "MainActivity"
+    }
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
             if (isGranted) {
@@ -31,16 +37,24 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        }
         if (ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.READ_EXTERNAL_STORAGE
+                permission
             ) == PackageManager.PERMISSION_GRANTED) {
             // You can use the API that requires the permission.
+            Log.d(TAG, "onCreate setOurUiContent")
            setOurUiContent()
         } else {
+            Log.d(TAG, "onCreate requestPermissionLauncher")
             // You can directly ask for the permission.
-            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            requestPermissionLauncher.launch(permission)
         }
+        Log.d(TAG, "onCreate end")
     }
 
     private fun setOurUiContent() {
@@ -49,6 +63,7 @@ class MainActivity : ComponentActivity() {
                 MyApp(modifier = Modifier.fillMaxSize())
             }
         }
+        Log.d(TAG, "setOurUiContent end")
     }
 
     @Composable
@@ -71,3 +86,4 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+

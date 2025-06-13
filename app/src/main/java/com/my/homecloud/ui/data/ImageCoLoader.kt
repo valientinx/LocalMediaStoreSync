@@ -22,6 +22,10 @@ import java.util.concurrent.TimeUnit
 
 class ImageCoLoader {
 
+    companion object {
+        private const val TAG = "ImageCoLoader"
+    }
+
     // TODO remove content observer from this file to MainFragment
     private var contentObserver: ContentObserver? = null
 
@@ -50,7 +54,7 @@ class ImageCoLoader {
      */
     fun loadImages(contentResolver: ContentResolver) {
         coroutineScope.launch {
-            Log.d("ImageCoLoader", "Loading images")
+            Log.d(TAG, "Loading images")
             val imageList = queryImages(contentResolver)
 //            _images.postValue(imageList)
             imageListener.onDataLoaded(imageList)
@@ -227,8 +231,8 @@ class ImageCoLoader {
                     )
 
                     val image = MediaStoreImage(id, displayName, dateModified, contentUri)
-                    images += image
-//                    images.add(image)
+//                    images += image
+                    images.add(image)
 
                     // For debugging, we'll output the image objects we create to logcat.
                     Log.v(TAG, "Added image: $image")
@@ -287,3 +291,4 @@ interface ImageLoadedListener {
 }
 
 private const val TAG = "ImageCoLoader"
+

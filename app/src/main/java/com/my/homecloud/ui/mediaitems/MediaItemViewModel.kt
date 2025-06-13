@@ -1,44 +1,68 @@
 package com.my.homecloud.ui.mediaitems
 
 import android.content.ContentResolver
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.my.homecloud.event.MediaItemEvent
+import com.my.homecloud.intent.MediaItemIntent
+import com.my.homecloud.state.MediaItemState
 import com.my.homecloud.ui.data.ImageCoLoader
 import com.my.homecloud.ui.data.ImageLoadedListener
 import com.my.homecloud.ui.data.MediaStoreImage
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class MediaItemViewModel : ViewModel() {
-    private val _mediaItems = mutableListOf<MediaItemData>()
-
-    private val _viewState = MutableStateFlow(listOf<MediaItemData>())
-    val viewState: StateFlow<List<MediaItemData>> = _viewState.asStateFlow()
-
-    fun remove(item: MediaItemData) {
-        _mediaItems.remove(item)
-        _viewState.update { _mediaItems }
+    companion object {
+        private const val TAG = "MediaItemViewModel"
     }
 
-    fun startLoadingImages(contentResolver: ContentResolver) = viewModelScope.launch {
-        val loader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
-            override fun onDataLoaded(imageList: List<MediaStoreImage>) {
-                _mediaItems.addAll(imageList.map {
-                    Log.d(TAG, "onDataLoaded: ${it.contentUri}")
-                    MediaItemData(
-                        it.id.toInt(),
-                        it.displayName,
-                        it.contentUri
-                    )
-                })
-                // update ui
-                _viewState.update { _mediaItems }
+    private val _state = MutableStateFlow<MediaItemState>(MediaItemState.Idle)
+    val state: StateFlow<MediaItemState> = _state.asStateFlow()
+
+    private val _event = Channel<MediaItemEvent>(Channel.BUFFERED)
+    val event = _event.receiveAsFlow()
+
+    private val _mediaItems = mutableListOf<MediaItemData>()
+
+    fun processIntent(intent: MediaItemIntent, contentResolver: ContentResolver) {
+        when (intent) {
+            is MediaItemIntent.LoadImages -> loadImages(contentResolver)
+            is MediaItemIntent.RemoveImage -> removeImage(intent.item)
+        }
+    }
+
+    private fun loadImages(contentResolver: ContentResolver) {
+        _state.value = MediaItemState.Loading
+        viewModelScope.launch {
+            val loader = ImageCoLoader(viewModelScope, object : ImageLoadedListener {
+                override fun onDataLoaded(imageList: List<MediaStoreImage>) {
+                    _mediaItems.clear()
+                    _mediaItems.addAll(imageList.map {
+                        MediaItemData(
+                            it.id.toInt(),
+                            it.displayName,
+                            it.contentUri
+                        )
+                    })
+                    _state.value = MediaItemState.Loaded(_mediaItems)
+                }
+            })
+            try {
+                loader.loadImages(contentResolver)
+            } catch (e: Exception) {
+                _state.value = MediaItemState.Error(e.message ?: "Unknown error")
+                _event.trySend(MediaItemEvent.ShowMessage(e.message ?: "Unknown error"))
             }
-        })
-        loader.loadImages(contentResolver)
+        }
+    }
+
+    private fun removeImage(item: MediaItemData) {
+        _mediaItems.remove(item)
+        _state.value = MediaItemState.Loaded(_mediaItems)
+        viewModelScope.launch {
+            _event.send(MediaItemEvent.ShowMessage("Image removed"))
+        }
     }
 }
